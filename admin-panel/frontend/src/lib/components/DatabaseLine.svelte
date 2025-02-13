@@ -11,7 +11,7 @@
         </div>
     {/each}
     <button type="button">
-        <span class="material-symbols-outlined text-slate-400 align-middle hover:cursor-pointer" title="Delete">
+        <span class="material-symbols-outlined text-slate-400 align-middle transition-colors duration-200 hover:text-red-600 hover:cursor-pointer" title="Delete">
             delete
         </span>
     </button>
