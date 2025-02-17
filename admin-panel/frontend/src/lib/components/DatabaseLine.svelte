@@ -20,7 +20,7 @@
     <div class="border-b-slate-400 border-b-2 flex justify-start flex-row flex-wrap px-1.5 p-3 gap-2">
         {#each Object.entries(dataJSON) as [key, value]}
             <div>
-                <p class="rounded-2xl py-3 mx-2 px-1 font-bold bg-slate-300">{key}: <span class="bg-white font-normal text-black">{value}</span></p>
+                <p class="rounded-2xl py-3 mx-2 px-3 font-bold bg-slate-300">{key}: <span class="bg-white font-normal text-black">{value}</span></p>
             </div>
         {/each}
         
