@@ -1,4 +1,4 @@
-const express = require("express");
+import express from 'express';  //  changed due to ESM
 const router = express.Router();
 
 router
@@ -8,4 +8,4 @@ router
     })
 ;
 
-module.exports = router;
+export default router;  //  changed due to ESM

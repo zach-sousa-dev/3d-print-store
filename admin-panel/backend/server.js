@@ -1,4 +1,4 @@
-const express = require("express");
+import express from 'express';  // changed due to ESM
 const app = express();
 
 app.get("/", (req, res) => {
@@ -6,7 +6,7 @@ app.get("/", (req, res) => {
     res.download("server.js");
 });
 
-const seriesRouter = require("./routers/series");
+import seriesRouter from "./routers/series.js"; // changed due to ESM
 
 app.use("/series", seriesRouter);
 
