@@ -8,10 +8,15 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME
 }).promise();
 
-async function getNotes() {
+/**
+ * getSeriesList
+ * @returns array of all the rows in the series table
+ */
+export async function getSeriesList() {
     const [rows] = await pool.query("SELECT * FROM series");
     return rows;
 }
 
-const notes = await getNotes();
-console.log(notes);
+// for testing
+const result = await getSeriesList();
+console.log(result);

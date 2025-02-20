@@ -1,10 +1,13 @@
 import express from 'express';  //  changed due to ESM
 const router = express.Router();
 
+import { getSeriesList } from "../database.js";
+
 router
     .route("/")
-    .get((req, res) => {
-        
+    .get(async (req, res) => {
+        const result = await getSeriesList();
+        res.json(result);
     })
 ;
 
