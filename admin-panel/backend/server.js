@@ -1,4 +1,5 @@
 import express from 'express';  // changed due to ESM
+import cors from 'cors';
 const app = express();
 
 //  sample request
@@ -8,6 +9,11 @@ app.get("/", (req, res) => {
     res.send("Success.");
 });
 
+// apply cors
+// TODO: this is currently open to all origins, needs to be limited for prod
+//  as well as locking specific routes (creation and deletion) behind certain origins
+app.use(cors());
+
 //  simple error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -16,7 +22,9 @@ app.use((err, req, res, next) => {
 
 // router imports
 import seriesRouter from "./routers/series.js"; // changed due to ESM
+import getAllRouter from "./routers/getAll.js"; 
 
-app.use("/series", seriesRouter);
+//app.use("/series", seriesRouter);
+app.use("/getAll", getAllRouter);
 
 app.listen(3000);

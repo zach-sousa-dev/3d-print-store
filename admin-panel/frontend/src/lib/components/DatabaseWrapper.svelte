@@ -1,11 +1,44 @@
 <script>
+    import { PUBLIC_API_URL } from '$env/static/public';
     import Button from "$lib/components/Button.svelte";
     import DatabaseLine from "$lib/components/DatabaseLine.svelte";
+    import { onMount } from 'svelte';
+    import Dropdown from './Dropdown.svelte';
 
-    let currentTable = "products";
-    function changeTable(/**@type {string}*/ tableName) {
-        currentTable = tableName;
+    let currentTable = "series";
+
+    let dataJSON = {};  // the rows
+
+    onMount(() => {
+        requestTableData(currentTable);
+    });
+
+    /**
+     * changeTable
+     * @param tableName the new table to select
+     */
+    async function changeTable(/**@type {string}*/ tableName) {
+        if(currentTable !== tableName) {
+            currentTable = tableName;
+            requestTableData(currentTable);
+        }
     };
+
+    /**
+     * Makes a request to a URL based on the name of the table
+     * @param table
+     */
+    async function requestTableData(/**@type {string}*/ table) {
+        const url = PUBLIC_API_URL + "/getAll/" + table;
+
+        try {
+            const queryResults = await fetch(url);
+            dataJSON = await queryResults.json();
+            console.log(dataJSON);
+        } catch(error) {
+            console.error(error);
+        }
+    }
 
     let testJSON = { 
         product_id: "11", 
@@ -38,10 +71,11 @@
 </div>
 <!--/-->
 
+<Dropdown header="JSON RESPONSE" content="<p>{JSON.stringify(dataJSON)}</p>"/>
+
 <p>You are currently viewing the <span class="font-bold uppercase text-blue-700">{currentTable}</span> table.</p>
 <br>
 
-<DatabaseLine dataJSON={testJSON}/>
-<DatabaseLine dataJSON={testJSON}/>
-<DatabaseLine dataJSON={testJSON}/>
-<DatabaseLine dataJSON={testJSON}/>
+{#each Object.entries(dataJSON) as [key, value]}
+    <DatabaseLine dataJSON={value}/>
+{/each}
