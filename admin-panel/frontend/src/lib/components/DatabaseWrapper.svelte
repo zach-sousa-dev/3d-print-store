@@ -1,5 +1,5 @@
 <script>
-    import { PUBLIC_API_URL } from '$env/static/public';
+    import * as endpoints from '$env/static/public';
     import Button from "$lib/components/Button.svelte";
     import DatabaseLine from "$lib/components/DatabaseLine.svelte";
     import { onMount } from 'svelte';
@@ -8,7 +8,10 @@
     let currentTable = "series";
 
     let dataJSON = {};  // the rows
+    
+    setInterval(() => { requestTableData(currentTable) }, 1000);
 
+    //  fill out table data on page load
     onMount(() => {
         requestTableData(currentTable);
     });
@@ -29,27 +32,33 @@
      * @param table
      */
     async function requestTableData(/**@type {string}*/ table) {
-        const url = PUBLIC_API_URL + "/getAll/" + table;
-
+        const url = endpoints.PUBLIC_API_URL + "/getAll/" + table;
         try {
             const queryResults = await fetch(url);
             dataJSON = await queryResults.json();
-            console.log(dataJSON);
         } catch(error) {
             console.error(error);
         }
     }
 
-    let testJSON = { 
-        product_id: "11", 
-        product_cost: "$3.28", 
-        product_price: "$14.99", 
-        product_name: "Battery Mount (Black PETG)",
-        archived: "false", 
-        series_id: "4", 
-        product_qty: "6", 
-        image_id: "105",
-    };
+    // delete functions
+    /**
+     * @param table
+     */
+     async function deleteSeries(/**@type {number}*/ id) {
+        const url = endpoints.PUBLIC_API_URL + "/series/" + id;
+
+        try {
+            const queryResults = await fetch(url, {
+                method: "DELETE"
+            });
+            let result = await queryResults.json();
+            requestTableData(currentTable);
+            console.log(result);
+        } catch(error) {
+            console.error(error);
+        }
+    }
 </script>
 
 
@@ -77,5 +86,9 @@
 <br>
 
 {#each Object.entries(dataJSON) as [key, value]}
-    <DatabaseLine dataJSON={value}/>
+    {#if currentTable == "series"}
+        <DatabaseLine dataJSON={value} deleteFunction={deleteSeries}/>
+    {:else}
+        <DatabaseLine dataJSON={value}/>
+    {/if}
 {/each}

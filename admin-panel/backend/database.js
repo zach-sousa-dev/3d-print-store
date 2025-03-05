@@ -46,6 +46,25 @@ export async function getSeriesList() {
     return rows;
 }
 
+/**
+ * addSeries
+ */
+export async function addSeries(name, description) {
+    const [rows] = await pool.query(`INSERT INTO series (series_name, series_description)
+                                      VALUES (?, ?)`, [name, description]);
+    return rows;
+}
+
+/**
+ * deleteSeries
+ */
+export async function deleteSeries(id) {
+    const [rows] = await pool.query(`DELETE FROM series
+                                      WHERE series_id=?`, [id]);
+    return rows;
+}
+
+
 // for testing
-const result = await getSeriesList();
-console.log(result);
+// const result = await getSeriesList();
+// console.log(result);

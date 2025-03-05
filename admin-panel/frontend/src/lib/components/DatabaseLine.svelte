@@ -1,5 +1,6 @@
 <script>
     export let dataJSON;
+    export let deleteFunction = (/**@type {number}*/id) => {};
 
     //icons
     import DeleteIcon from "~icons/material-symbols/delete-outline";
@@ -25,7 +26,7 @@
         {/each}
         
     </div>
-    <button type="button" class="m-auto">
+    <button type="button" class="m-auto" on:click={()=>{deleteFunction(Object.values(dataJSON)[0])}}>
         <DeleteIcon class=
             "
                 text-2xl

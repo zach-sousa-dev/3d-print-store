@@ -28,6 +28,8 @@ CREATE TABLE `emails` (
 CREATE TABLE `orders` (
   `order_id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `order_date` date NOT NULL,
+  `fulfilled` tinyint(1) NOT NULL DEFAULT 0,
+  `paid` tinyint(1) NOT NULL DEFAULT 0,
   `email_id` int NOT NULL
 );
 
